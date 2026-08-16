@@ -1,0 +1,14 @@
+name: jm
+
+services:
+  debian:
+    image: ${IMAGE:-debian}:${TAG:-latest}
+    build:
+      context: ./
+      dockerfile: Containerfile
+    userns_mode: "keep-id:uid=1000,gid=1000"
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
