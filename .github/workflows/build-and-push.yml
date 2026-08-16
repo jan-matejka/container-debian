@@ -7,6 +7,12 @@ on:
     # when there's been no push. GitHub Actions schedules only support fixed
     # calendar times, not "N days since the last run".
     - cron: '0 3 * * 1'  # every Monday at 03:00 UTC
+  workflow_dispatch:
+    inputs:
+      no_cache:
+        description: 'Rebuild without using the registry cache (still refreshes it)'
+        type: boolean
+        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -57,7 +63,7 @@ jobs:
           IMAGE: ${{ steps.repo.outputs.image }}
           BUILD_INFO_CTIME: ${{ steps.build_info.outputs.ctime }}
           BUILD_INFO_GIT_COMMIT: ${{ github.sha }}
-        run: docker compose -f compose.yaml -f compose.ci.yaml build
+        run: docker compose -f compose.yaml -f compose.ci.yaml build ${{ inputs.no_cache && '--no-cache' || '' }}
 
       - name: Tag and push image
         env:
