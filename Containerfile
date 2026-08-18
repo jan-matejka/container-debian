@@ -9,6 +9,8 @@ apt-get update -y
 apt-get upgrade -y
 
 apt-get install -y \
+  bind9-dnsutils \
+  bind9-host \
   ca-certificates \
   curl \
   git \
