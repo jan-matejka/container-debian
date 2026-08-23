@@ -1,7 +1,0 @@
-services:
-  debian:
-    build:
-      cache_from:
-        - type=registry,ref=${CACHE_IMAGE}
-      cache_to:
-        - type=registry,ref=${CACHE_IMAGE},mode=max
