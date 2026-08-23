@@ -1,5 +1,6 @@
 FROM docker.io/library/debian:trixie-slim
 
+
 RUN <<EOF
 set -xeu
 printf "APT::Install-Recommends \"0\";" \
@@ -43,3 +44,11 @@ install -d --owner=user /app /test /src
 EOF
 
 CMD ["zsh"]
+
+ARG IMAGE_BUILD_CTIME=
+ARG IMAGE_BUILD_COMMIT=
+ARG IMAGE_BUILD_REF=
+
+ENV JMA_DEBIAN_IMAGE_BUILD_CTIME=${IMAGE_BUILD_CTIME} \
+  JMA_DEBIAN_IMAGE_BUILD_COMMIT=${IMAGE_BUILD_COMMIT} \
+  JMA_DEBIAN_IMAGE_BUILD_REF=${IMAGE_BUILD_REF}
