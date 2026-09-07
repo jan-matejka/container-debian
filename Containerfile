@@ -17,6 +17,7 @@ apt-get install -y \
   git \
   gnupg2 \
   iproute2 \
+  less \
   make \
   strace \
   zsh
