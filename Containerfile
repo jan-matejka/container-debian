@@ -1,14 +1,11 @@
 FROM docker.io/library/debian:trixie-slim
 
 
-RUN <<EOF
-set -xeu
+RUN set -xeu; \
 printf "APT::Install-Recommends \"0\";" \
-  > /etc/apt/apt.conf.d/no-install-recommends
-
-apt-get update -y
-apt-get upgrade -y
-
+  > /etc/apt/apt.conf.d/no-install-recommends \;
+apt-get update -y; \
+apt-get upgrade -y; \
 apt-get install -y \
   bind9-dnsutils \
   bind9-host \
@@ -21,28 +18,21 @@ apt-get install -y \
   make \
   strace \
   zsh
-EOF
 
-RUN <<EOF
-curl -fsSL https://jan-matejka.github.io/debian-ppa/install | sh
+RUN curl -fsSL https://jan-matejka.github.io/debian-ppa/install | sh; \
 apt-get install -y \
   dram \
   jm-util
-EOF
 
-RUN <<EOF
-set -e
-
-useradd -m --shell /bin/zsh user
-chsh -s /bin/zsh root
-
-cd /root
-mkdir -p git/dotfiles
-git clone -q https://github.com/jan-matejka/dotfiles-zsh.git git/dotfiles/zsh
-make -C git/dotfiles/zsh install
-make -C git/dotfiles/zsh install HOME=/home/user USER=user
-install -d --owner=user /app /test /src
-EOF
+RUN set -eux; \
+useradd -m --shell /bin/zsh user; \
+chsh -s /bin/zsh root; \
+cd /root; \
+mkdir -p git/dotfiles; \
+git clone -q https://github.com/jan-matejka/dotfiles-zsh.git git/dotfiles/zsh; \
+make -C git/dotfiles/zsh install; \
+make -C git/dotfiles/zsh install HOME=/home/user USER=user; \
+install -d --owner=user /app /test /src; \
 
 CMD ["zsh"]
 
